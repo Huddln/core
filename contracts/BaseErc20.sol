@@ -7,6 +7,8 @@ pragma solidity 0.6.8;
 import {SafeMath} from "@openzeppelin/contracts/math/SafeMath.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
+import "./BasicMetaTransaction.sol"; // J.gonzalez gasless
+// msg.sender replaces with msgSender()
 
 /**
  * @title ERC20 Token
@@ -97,10 +99,10 @@ contract BaseERC20 is IERC20, Ownable {
         override
         returns (bool)
     {
-        if (_balances[msg.sender] >= value) {
-            _balances[msg.sender] = _balances[msg.sender].sub(value);
+        if (_balances[msgSender()] >= value) {
+            _balances[msgSender()] = _balances[msgSender()].sub(value);
             _balances[to] = _balances[to].add(value);
-            emit Transfer(msg.sender, to, value);
+            emit Transfer(msgSender(), to, value);
             return true;
         } else {
             return false;
@@ -113,11 +115,11 @@ contract BaseERC20 is IERC20, Ownable {
         uint256 value
     ) public virtual override returns (bool) {
         if (
-            _balances[from] >= value && _allowances[from][msg.sender] >= value
+            _balances[from] >= value && _allowances[from][msgSender()] >= value
         ) {
             _balances[to] = _balances[to].add(value);
             _balances[from] = _balances[from].sub(value);
-            _allowances[from][msg.sender] = _allowances[from][msg.sender].sub(
+            _allowances[from][msgSender()] = _allowances[from][msgSender()].sub(
                 value
             );
             emit Transfer(from, to, value);
@@ -132,7 +134,7 @@ contract BaseERC20 is IERC20, Ownable {
         override
         returns (bool)
     {
-        return _approve(msg.sender, spender, value);
+        return _approve(msgSender(), spender, value);
     }
 
     function _approve(

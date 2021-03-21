@@ -25,6 +25,8 @@ import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/utils/EnumerableSet.sol";
 import "@openzeppelin/contracts/utils/EnumerableMap.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
+import "./BasicMetaTransaction.sol"; // J.gonzalez gasless
+// msgSender() replaces with msgSender()
 
 /**
  * @title ERC721 Non-Fungible Token Standard basic implementation
@@ -224,7 +226,7 @@ contract ERC721 is
         require(to != owner, "ERC721: approval to current owner");
 
         require(
-            _msgSender() == owner || isApprovedForAll(owner, _msgSender()),
+            msgSender() == owner || isApprovedForAll(owner, msgSender()),
             "ERC721: approve caller is not owner nor approved for all"
         );
 
@@ -256,10 +258,10 @@ contract ERC721 is
         virtual
         override
     {
-        require(operator != _msgSender(), "ERC721: approve to caller");
+        require(operator != msgSender(), "ERC721: approve to caller");
 
-        _operatorApprovals[_msgSender()][operator] = approved;
-        emit ApprovalForAll(_msgSender(), operator, approved);
+        _operatorApprovals[msgSender()][operator] = approved;
+        emit ApprovalForAll(msgSender(), operator, approved);
     }
 
     /**
@@ -284,7 +286,7 @@ contract ERC721 is
     ) public virtual override {
         //solhint-disable-next-line max-line-length
         require(
-            _isApprovedOrOwner(_msgSender(), tokenId),
+            _isApprovedOrOwner(msgSender(), tokenId),
             "ERC721: transfer caller is not owner nor approved"
         );
 
@@ -312,7 +314,7 @@ contract ERC721 is
         bytes memory _data
     ) public virtual override {
         require(
-            _isApprovedOrOwner(_msgSender(), tokenId),
+            _isApprovedOrOwner(msgSender(), tokenId),
             "ERC721: transfer caller is not owner nor approved"
         );
         _safeTransfer(from, to, tokenId, _data);
@@ -470,7 +472,7 @@ contract ERC721 is
 
     /**
      * @dev Transfers `tokenId` from `from` to `to`.
-     *  As opposed to {transferFrom}, this imposes no restrictions on msg.sender.
+     *  As opposed to {transferFrom}, this imposes no restrictions on msgSender().
      *
      * Requirements:
      *
@@ -553,7 +555,7 @@ contract ERC721 is
             to.functionCall(
                 abi.encodeWithSelector(
                     IERC721Receiver(to).onERC721Received.selector,
-                    _msgSender(),
+                    msgSender(),
                     from,
                     tokenId,
                     _data

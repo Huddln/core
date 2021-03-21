@@ -11,6 +11,8 @@ pragma solidity 0.6.8;
 
 import "@openzeppelin/contracts/GSN/Context.sol";
 import "./ERC721.sol";
+import "./BasicMetaTransaction.sol"; // J.gonzalez gasless
+// msg.sender replaces with msgSender()
 
 /**
  * @title ERC721 Burnable Token
@@ -27,7 +29,7 @@ abstract contract ERC721Burnable is Context, ERC721 {
     function burn(uint256 tokenId) public virtual {
         //solhint-disable-next-line max-line-length
         require(
-            _isApprovedOrOwner(_msgSender(), tokenId),
+            _isApprovedOrOwner(msgSender(), tokenId),
             "ERC721Burnable: caller is not owner nor approved"
         );
         _burn(tokenId);

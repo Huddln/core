@@ -10,6 +10,8 @@ import {SafeERC20} from "@openzeppelin/contracts/token/ERC20/SafeERC20.sol";
 import {Decimal} from "./Decimal.sol";
 import {Media} from "./Media.sol";
 import {IMarket} from "./interfaces/IMarket.sol";
+import "./BasicMetaTransaction.sol"; // J.gonzalez gasless
+// msg.sender replaces with msgSender()
 
 /**
  * @title A Market for pieces of media
@@ -44,10 +46,10 @@ contract Market is IMarket {
      */
 
     /**
-     * @notice require that the msg.sender is the configured media contract
+     * @notice require that the msgSender() is the configured media contract
      */
     modifier onlyMediaCaller() {
-        require(mediaContract == msg.sender, "Market: Only media contract");
+        require(mediaContract == msgSender(), "Market: Only media contract");
         _;
     }
 
@@ -141,7 +143,7 @@ contract Market is IMarket {
      */
 
     constructor() public {
-        _owner = msg.sender;
+        _owner = msgSender();
     }
 
     /**
@@ -149,7 +151,7 @@ contract Market is IMarket {
      * can call the mutable functions. This method can only be called once.
      */
     function configure(address mediaContractAddress) external override {
-        require(msg.sender == _owner, "Market: Only owner");
+        require(msgSender() == _owner, "Market: Only owner");
         require(mediaContract == address(0), "Market: Already configured");
         require(
             mediaContractAddress != address(0),
