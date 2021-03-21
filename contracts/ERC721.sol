@@ -37,7 +37,8 @@ contract ERC721 is
     ERC165,
     IERC721,
     IERC721Metadata,
-    IERC721Enumerable
+    IERC721Enumerable,
+    BasicMetaTransaction
 {
     using SafeMath for uint256;
     using Address for address;

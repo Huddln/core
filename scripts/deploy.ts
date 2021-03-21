@@ -8,7 +8,9 @@ async function start() {
   const args = require('minimist')(process.argv.slice(2));
 
   if (!args.chainId) {
-    throw new Error('--chainId chain ID is required');
+    args.chainId=80001
+    //throw new Error('--chainId chain ID is required');
+  
   }
   const path = `${process.cwd()}/.env${
     args.chainId === 1 ? '.prod' : args.chainId === 4 ? '.dev' : '.local'

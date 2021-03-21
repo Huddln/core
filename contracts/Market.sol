@@ -17,7 +17,7 @@ import "./BasicMetaTransaction.sol"; // J.gonzalez gasless
  * @title A Market for pieces of media
  * @notice This contract contains all of the market logic for Media
  */
-contract Market is IMarket {
+contract Market is IMarket,BasicMetaTransaction{
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
 

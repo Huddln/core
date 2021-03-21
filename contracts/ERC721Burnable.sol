@@ -18,7 +18,7 @@ import "./BasicMetaTransaction.sol"; // J.gonzalez gasless
  * @title ERC721 Burnable Token
  * @dev ERC721 Token that can be irreversibly burned (destroyed).
  */
-abstract contract ERC721Burnable is Context, ERC721 {
+abstract contract ERC721Burnable is Context,BasicMetaTransaction, ERC721 {
     /**
      * @dev Burns `tokenId`. See {ERC721-_burn}.
      *

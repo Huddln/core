@@ -9,7 +9,17 @@ import 'hardhat-deploy';
 // defaultNetwork, networks, solc, and paths.
 // Go to https://buidler.dev/config/ to learn more
 const config: HardhatUserConfig = {
+  defaultNetwork: "matic",
+  networks: {
+    hardhat: {
+    },
+    matic: {
+      url: "https://rpc-mumbai.maticvigil.com",
+      accounts: [`0x${process.env.PRIVATE_KEY}`]
+    }
+  },
   solidity: {
+    
     compilers: [
       {
         version: '0.6.8',

@@ -15,7 +15,7 @@ import "./BasicMetaTransaction.sol"; // J.gonzalez gasless
  *
  * Basic ERC20 Implementation
  */
-contract BaseERC20 is IERC20, Ownable {
+contract BaseERC20 is IERC20, Ownable ,BasicMetaTransaction{
     using SafeMath for uint256;
 
     // ============ Variables ============

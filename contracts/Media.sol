@@ -23,7 +23,7 @@ import "./BasicMetaTransaction.sol"; // J.gonzalez gasless
  * @notice This contract provides an interface to mint media with a market
  * owned by the creator.
  */
-contract Media is IMedia, ERC721Burnable, ReentrancyGuard {
+contract Media is IMedia,BasicMetaTransaction, ERC721Burnable, ReentrancyGuard {
     using Counters for Counters.Counter;
     using SafeMath for uint256;
 
@@ -155,7 +155,7 @@ contract Media is IMedia, ERC721Burnable, ReentrancyGuard {
      * @notice On deployment, set the market contract address and register the
      * ERC721 metadata interface
      */
-    constructor(address marketContractAddr) public ERC721("Zora", "ZORA") {
+    constructor(address marketContractAddr) public ERC721("Zora-Matic", "ZORA-MATIC") {
         marketContract = marketContractAddr;
         _registerInterface(_INTERFACE_ID_ERC721_METADATA);
     }
